@@ -1,14 +1,16 @@
-import random
-import math
 import itertools
+import math
+import random
+from helpers.tournament import tournament
 from chromosome import Chromosome
+
 
 class Population:
     CROSSOVER_PROB = 0
     POPULATION_SIZE = 0
     NUMBER_OF_CHILDREN = 0
     ELITE_PERCENTAGE = 0
-    INTERMEDIATE_POPULATION = POPULATION_SIZE + NUMBER_OF_CHILDREN
+    INTERMEDIATE_POPULATION = 0
 
     def __init__(self, population=None):
         if population is not None:
@@ -24,8 +26,8 @@ class Population:
     def get_population_fitness(self):
         overall_fitness = 0
         for chromosome in self.population:
-            overall_fitness += chromosome.fitness
-        return overall_fitness / len(self.population)
+            overall_fitness += chromosome.fitness / len(self.population)
+        return overall_fitness
 
     def choose_parents(self):
         parents = random.sample(self.population, 2)
@@ -36,6 +38,7 @@ class Population:
         # ordered crossover
         if random.random() > self.CROSSOVER_PROB:
             return Chromosome(parent1), Chromosome(parent2)
+
         index_list = list(range(0, len(parent1)))
         start_index, stop_index = sorted(random.sample(index_list, 2))
         chunk1, chunk2 = parent1[start_index: stop_index + 1], parent2[start_index: stop_index + 1]
@@ -69,23 +72,9 @@ class Population:
         elite_chromosomes_number = math.ceil(self.ELITE_PERCENTAGE * len(self.population))
         new_population, tournament_participants = \
             sorted_population[0: elite_chromosomes_number], sorted_population[elite_chromosomes_number:]
-        new_population.extend(self.tournament_winners(tournament_participants,
-                                                      self.POPULATION_SIZE - len(new_population)))
+        new_population.extend(tournament(tournament_participants,
+                                         self.POPULATION_SIZE - len(new_population)))
         return new_population
 
-    def tournament_winners(self, tournament_participants, expected_winners_number):
-        winners = []
-        while len(winners) < expected_winners_number:
-            index_list = list(range(0, len(tournament_participants)))
-            player1_index, player2_index = random.sample(index_list, 2)
-            player1, player2 = tournament_participants[player1_index], tournament_participants[player2_index]
-            if player1.fitness > player2.fitness:
-                winners.append(player1)
-                tournament_participants.pop(player1_index)
-            else:
-                winners.append(player2)
-                tournament_participants.pop(player2_index)
-        return winners
-
-    def __str__(self):
+    def __repr__(self):
         return f"Fitness - {self.fitness}. Individuals - {self.population}"

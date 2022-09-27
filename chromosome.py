@@ -3,7 +3,7 @@ import random
 class Chromosome:
     MUTATION_PROB = 0
     DISTANCE_MATRIX = []
-    CHROMOSOME_LENGTH = len(DISTANCE_MATRIX)
+    CHROMOSOME_LENGTH = 0
 
     def __init__(self, solution=None):
         if solution is not None:
@@ -38,5 +38,5 @@ class Chromosome:
 
 
 if __name__ == "__main__":
-    example = Chromosome()
-    print(example)
+    chromosome = Chromosome()
+    print(chromosome)
