@@ -1,5 +1,6 @@
 import random
 
+
 class Chromosome:
     MUTATION_PROB = 0
     DISTANCE_MATRIX = []
@@ -7,7 +8,7 @@ class Chromosome:
 
     def __init__(self, solution=None):
         if solution is not None:
-            self.solution = solution
+            self.solution = solution[:]
         else:
             self.solution = self.generate_chromosome()
         self.fitness = self.get_chromosome_fitness()
@@ -32,11 +33,21 @@ class Chromosome:
             first_gene_index, second_gene_index = random.sample(index_list, 2)
             self.solution[first_gene_index], self.solution[second_gene_index] = \
                 self.solution[second_gene_index], self.solution[first_gene_index]
+            self.fitness = self.get_chromosome_fitness()
 
     def __repr__(self):
-        return f"\nFitness - {self.fitness}. Route - {self.solution}"
+        return f"\nFitness - {self.fitness}. Route - {self.solution}. Calculated - {self.get_chromosome_fitness()}"
 
 
 if __name__ == "__main__":
+    Chromosome.CHROMOSOME_LENGTH = 5
+    Chromosome.MUTATION_PROB = 0.7
+    Chromosome.DISTANCE_MATRIX = [
+        [0, 5, 6, 2, 3],
+        [6, 0, 3, 3, 2],
+        [5, 3, 0, 2, 2],
+        [4, 2, 5, 0, 1],
+        [6, 1, 4, 5, 0]]
     chromosome = Chromosome()
+    chromosome.mutate()
     print(chromosome)

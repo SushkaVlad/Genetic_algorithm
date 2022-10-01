@@ -55,12 +55,14 @@ class Population:
         return Chromosome(offspring1), Chromosome(offspring2)
 
     def generate_children(self):
-        while len(self.population) < self.INTERMEDIATE_POPULATION:
+        children = []
+        while len(self.population + children) < self.INTERMEDIATE_POPULATION:
             parent1, parent2 = self.choose_parents()
             offspring1, offspring2 = self.crossover(parent1.solution, parent2.solution)
             offspring1.mutate()
             offspring2.mutate()
-            self.population.extend([offspring1, offspring2])
+            children.extend([offspring1, offspring2])
+        self.population.extend(children)
         if len(self.population) > self.INTERMEDIATE_POPULATION:
             self.population.pop()
 
