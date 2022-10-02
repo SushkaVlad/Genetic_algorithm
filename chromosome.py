@@ -36,7 +36,7 @@ class Chromosome:
             self.fitness = self.get_chromosome_fitness()
 
     def __repr__(self):
-        return f"\nFitness - {self.fitness}. Route - {self.solution}. Calculated - {self.get_chromosome_fitness()}"
+        return f"\nFitness - {self.fitness}. Route - {self.solution}."
 
 
 if __name__ == "__main__":

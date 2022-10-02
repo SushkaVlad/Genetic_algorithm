@@ -49,7 +49,7 @@ def run_genetic_algorithm(max_populations, threshold_eps):
         population = Population(new_population)
         eps = abs(population.get_population_fitness() - prev_population_fitness)
         counter += 1
-    print(population.sort_by_fitness())
+    print(population.sort_by_fitness()[0:5])
     print("==============================================================================================")
 
 
