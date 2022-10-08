@@ -63,6 +63,7 @@ class Population:
             offspring2.mutate()
             children.extend([offspring1, offspring2])
         self.population.extend(children)
+        # because we always add two children, but INTERMEDIATE_POPULATION could be odd
         if len(self.population) > self.INTERMEDIATE_POPULATION:
             self.population.pop()
 
@@ -80,3 +81,7 @@ class Population:
 
     def __repr__(self):
         return f"Fitness - {self.fitness}. Individuals - {self.population}"
+
+
+if __name__ == "__main__":
+    print("Playground with population class")

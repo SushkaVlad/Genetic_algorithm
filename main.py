@@ -1,41 +1,34 @@
 import math
-import pandas as pd
-from chromosome import Chromosome
+from constants import SETTINGS, MAX_DIMENSION
+from helpers.generate_helpers import check_if_same_solutions
+from helpers.configurations import read_excel_configurations, initialize_classes_excel, \
+    initialize_classes_from_constants
 from population import Population
 
 
-def read_all_configurations(doc_name="examples.xlsx", list_of_sheets=("5x5", "6x6", "7x7", "8x8", "9x9", "10x10")):
-    list_of_settings = []
-    for sheet in list_of_sheets:
-        configuration = pd.read_excel(doc_name, sheet_name=sheet, nrows=8, usecols="A:B")
-        settings = {"POPULATION_SIZE": int(configuration.iloc[0][1]),
-                    "NUMBER_OF_CHILDREN": int(configuration.iloc[1][1]),
-                    "CROSSOVER_PROB": configuration.iloc[2][1],
-                    "MUTATION_PROB": configuration.iloc[3][1],
-                    "ELITE_PERCENTAGE": configuration.iloc[4][1],
-                    "MAX_POPULATIONS": int(configuration.iloc[5][1]),
-                    "THRESHOLD_EPS": configuration.iloc[6][1],
-                    "MATRIX_DIMENSION": int(configuration.iloc[7][1])}
-        settings["DISTANCE_MATRIX"] = pd.read_excel(doc_name,
-                                                    sheet_name=sheet,
-                                                    usecols=list(range(4, settings["MATRIX_DIMENSION"] + 4)),
-                                                    nrows=settings["MATRIX_DIMENSION"]).values
-        list_of_settings.append(settings)
-    return list_of_settings
-
-
-def run_all_algorithms(all_settings):
-    for settings in all_settings:
-        Chromosome.DISTANCE_MATRIX = settings["DISTANCE_MATRIX"]
-        Chromosome.CHROMOSOME_LENGTH = len(settings["DISTANCE_MATRIX"])
-        Chromosome.MUTATION_PROB = settings["MUTATION_PROB"]
-        Population.POPULATION_SIZE = settings["POPULATION_SIZE"]
-        Population.ELITE_PERCENTAGE = settings["ELITE_PERCENTAGE"]
-        Population.CROSSOVER_PROB = settings["CROSSOVER_PROB"]
-        Population.NUMBER_OF_CHILDREN = settings["NUMBER_OF_CHILDREN"]
-        Population.INTERMEDIATE_POPULATION = settings["NUMBER_OF_CHILDREN"] + settings["POPULATION_SIZE"]
+# use configurations from excel
+def run_excel_algorithms(excel_settings):
+    for settings in excel_settings:
+        initialize_classes_excel(settings)
         print(f"Solution for matrix of dimension ", len(settings["DISTANCE_MATRIX"]))
-        run_genetic_algorithm(settings["MAX_POPULATIONS"], settings["THRESHOLD_EPS"])
+        solutions = run_genetic_algorithm(settings["MAX_POPULATIONS"], settings["THRESHOLD_EPS"])
+        print(solutions[0:5])
+        print("=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)")
+
+
+# generate matrices and solutions (settings are taken from constants)
+def run_generated_algorithms():
+    for dimension in range(5, MAX_DIMENSION + 1):
+        expected_solution = initialize_classes_from_constants(SETTINGS, dimension)
+        print(f"Solution for matrix of dimension ", dimension)
+        solutions = run_genetic_algorithm(SETTINGS["MAX_POPULATIONS"], SETTINGS["THRESHOLD_EPS"])
+        print(solutions[0:5])
+        print(expected_solution)
+        if check_if_same_solutions(solutions[0].solution, expected_solution):
+            print("Yeeeeeeeah, we have found solution!")
+        else:
+            print("Unfortunately, we haven't found solution")
+        print("=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)=)")
 
 
 def run_genetic_algorithm(max_populations, threshold_eps):
@@ -49,10 +42,12 @@ def run_genetic_algorithm(max_populations, threshold_eps):
         population = Population(new_population)
         eps = abs(population.get_population_fitness() - prev_population_fitness)
         counter += 1
-    print(population.sort_by_fitness()[0:5])
-    print("==============================================================================================")
+    return population.sort_by_fitness()
 
 
 if __name__ == "__main__":
-    all_settings = read_all_configurations()
-    run_all_algorithms(all_settings)
+    excel_settings = read_excel_configurations()
+    # run_excel_algorithms(excel_settings)  # run from excel
+
+    # run from constants settings + program generation of matrices and solutions
+    run_generated_algorithms()

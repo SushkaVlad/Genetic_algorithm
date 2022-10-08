@@ -40,14 +40,4 @@ class Chromosome:
 
 
 if __name__ == "__main__":
-    Chromosome.CHROMOSOME_LENGTH = 5
-    Chromosome.MUTATION_PROB = 0.7
-    Chromosome.DISTANCE_MATRIX = [
-        [0, 5, 6, 2, 3],
-        [6, 0, 3, 3, 2],
-        [5, 3, 0, 2, 2],
-        [4, 2, 5, 0, 1],
-        [6, 1, 4, 5, 0]]
-    chromosome = Chromosome()
-    chromosome.mutate()
-    print(chromosome)
+    print("Playground with Chromosome class")
