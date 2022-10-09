@@ -1,4 +1,5 @@
 import math
+import time
 from constants import SETTINGS, MAX_DIMENSION
 from helpers.generate_helpers import check_if_same_solutions
 from helpers.configurations import read_excel_configurations, initialize_classes_excel, \
@@ -46,8 +47,8 @@ def run_genetic_algorithm(max_populations, threshold_eps):
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     excel_settings = read_excel_configurations()
     # run_excel_algorithms(excel_settings)  # run from excel
-
-    # run from constants settings + program generation of matrices and solutions
-    run_generated_algorithms()
+    run_generated_algorithms()  # run from constants settings + program generation of matrices and solutions
+    print("--- %s seconds ---" % (time.time() - start_time))
