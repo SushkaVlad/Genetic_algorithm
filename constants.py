@@ -1,8 +1,8 @@
-SETTINGS = {"POPULATION_SIZE": 500,
-            "NUMBER_OF_CHILDREN": 500,
-            "CROSSOVER_PROB": 0.8,
-            "MUTATION_PROB": 0.05,
+SETTINGS = {"POPULATION_SIZE": 1000,
+            "NUMBER_OF_CHILDREN": 1000,
+            "CROSSOVER_PROB": 0.9,
+            "MUTATION_PROB": 0.1,
             "ELITE_PERCENTAGE": 0.1,
             "MAX_POPULATIONS": 200,
             "THRESHOLD_EPS": 0.000001}
-MAX_DIMENSION = 20
+MAX_DIMENSION = 50

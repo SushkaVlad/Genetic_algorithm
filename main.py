@@ -24,7 +24,7 @@ def run_generated_algorithms():
         print(f"Solution for matrix of dimension ", dimension)
         solutions = run_genetic_algorithm(SETTINGS["MAX_POPULATIONS"], SETTINGS["THRESHOLD_EPS"])
         print(solutions[0:5])
-        print(expected_solution)
+        print("Expected", expected_solution)
         if check_if_same_solutions(solutions[0].solution, expected_solution):
             print("Yeeeeeeeah, we have found solution!")
         else:
