@@ -21,10 +21,10 @@ def run_excel_algorithms(excel_settings):
 def run_generated_algorithms():
     for dimension in range(5, MAX_DIMENSION + 1):
         expected_solution = initialize_classes_from_constants(SETTINGS, dimension)
-        print(f"Solution for matrix of dimension ", dimension)
+        print("Solution for matrix of dimension ", dimension)
         solutions = run_genetic_algorithm(SETTINGS["MAX_POPULATIONS"], SETTINGS["THRESHOLD_EPS"])
         print(solutions[0:5])
-        print("Expected", expected_solution)
+        print("Expected ", expected_solution)
         if check_if_same_solutions(solutions[0].solution, expected_solution):
             print("Yeeeeeeeah, we have found solution!")
         else:
@@ -49,6 +49,8 @@ def run_genetic_algorithm(max_populations, threshold_eps):
 if __name__ == "__main__":
     start_time = time.time()
     excel_settings = read_excel_configurations()
-    # run_excel_algorithms(excel_settings)  # run from excel
-    run_generated_algorithms()  # run from constants settings + program generation of matrices and solutions
+    # run from excel (uncomment/comment line below)
+    # run_excel_algorithms(excel_settings)
+    # run from constants settings + program generation of matrices and solutions (uncomment/comment line below)
+    run_generated_algorithms()
     print("--- %s seconds ---" % (time.time() - start_time))

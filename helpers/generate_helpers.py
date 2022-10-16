@@ -15,6 +15,7 @@ def generate_matrix_with_solution(dimension, low_cost=2):
     expected_solution = generate_random_solution(dimension)
     distance_matrix = np.random.randint(low=100, high=200, size=(dimension, dimension))
     for i in range(0, len(expected_solution)):
+        distance_matrix[i][i] = 0
         if i != len(expected_solution) - 1:
             distance_matrix[expected_solution[i] - 1][expected_solution[i + 1] - 1] = low_cost
         else:
