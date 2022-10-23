@@ -14,3 +14,7 @@ def tournament(tournament_participants, expected_winners_number):
             winners.append(player2)
             tournament_participants.pop(player2_index)
     return winners
+
+
+if __name__ == "__main__":
+    print("Playground with tournament")

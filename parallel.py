@@ -3,6 +3,7 @@ import random
 import time
 
 from joblib import Parallel, delayed
+from tqdm import tqdm
 
 from constants import PARALLEL_SETTINGS, MAX_DIMENSION
 from helpers.generate_helpers import check_if_same_solutions, generate_matrix_with_solution
@@ -28,14 +29,15 @@ from chromosome import Chromosome
 
 def migration(populations):
     best_chromosomes = []
-    number_to_migrate = math.ceil(len(populations[0].population) * 0.1)
+    number_to_migrate = math.ceil(len(populations[0].population) * PARALLEL_SETTINGS["CHROMOSOMES_PERCENTAGE_TO_MIGRATE"])
     for i in range(len(populations)):
         best_chromosomes += populations[i].sort_by_fitness()[0: number_to_migrate]
     random.shuffle(best_chromosomes)
     for i in range(len(populations)):
-        populations[i].sort_by_fitness().reverse()
+        sorted_array = populations[i].sort_by_fitness()
+        sorted_array.reverse()
         populations[i] = Population(
-            populations[i].population[number_to_migrate:] + random.sample(best_chromosomes, number_to_migrate))
+            sorted_array[number_to_migrate:] + random.sample(best_chromosomes, number_to_migrate))
     return populations
 
 
@@ -75,7 +77,7 @@ def run_generated_algorithms():
 def run_parallel_algorithm():
     populations = [Population() for _ in range(PARALLEL_SETTINGS["POPULATIONS_NUMBER"])]
     result = []
-    for _ in range(PARALLEL_SETTINGS["MAX_POPULATIONS"]):
+    for _ in tqdm(range(int(PARALLEL_SETTINGS["MAX_POPULATIONS"] / PARALLEL_SETTINGS["ITER_NUMBER_BEFORE_MIGRATE"]))):
         result = Parallel(n_jobs=1)(
             delayed(run_one_algorithm)(populations[i]) for i in range(PARALLEL_SETTINGS["POPULATIONS_NUMBER"]))
         populations = migration(result)

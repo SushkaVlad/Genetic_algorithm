@@ -1,5 +1,7 @@
 import random
 
+from helpers.generate_helpers import generate_matrix_with_solution
+
 
 class Chromosome:
     MUTATION_PROB = 0
@@ -41,3 +43,4 @@ class Chromosome:
 
 if __name__ == "__main__":
     print("Playground with Chromosome class")
+

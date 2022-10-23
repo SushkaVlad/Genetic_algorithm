@@ -1,6 +1,9 @@
 import itertools
 import math
 import random
+
+from constants import SETTINGS
+from helpers.generate_helpers import generate_matrix_with_solution
 from helpers.tournament import tournament
 from chromosome import Chromosome
 
@@ -85,3 +88,4 @@ class Population:
 
 if __name__ == "__main__":
     print("Playground with population class")
+

@@ -19,7 +19,7 @@ def run_excel_algorithms(excel_settings):
 
 # generate matrices and solutions (settings are taken from constants)
 def run_generated_algorithms():
-    for dimension in range(5, MAX_DIMENSION + 1):
+    for dimension in range(15, MAX_DIMENSION + 1):
         expected_solution = initialize_classes_from_constants(SETTINGS, dimension)
         print("Solution for matrix of dimension ", dimension)
         solutions = run_genetic_algorithm(SETTINGS["MAX_POPULATIONS"], SETTINGS["THRESHOLD_EPS"])
@@ -49,7 +49,7 @@ def run_genetic_algorithm(max_populations, threshold_eps):
 if __name__ == "__main__":
     start_time = time.time()
     excel_settings = read_excel_configurations()
-    # run from excel (uncomment/comment line below)
+    # run from excel (uncomment/comment the line below)
     # run_excel_algorithms(excel_settings)
     # run from constants settings + program generation of matrices and solutions (uncomment/comment line below)
     run_generated_algorithms()
